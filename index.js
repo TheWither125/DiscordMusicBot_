@@ -13,7 +13,7 @@ client.on('message', async message => {
     if(!message.content.startsWith(PREFIX)) return
 
     const args = message.content.substring(PREFIX.length).split(" ")
-    const ServerQueue = queue.get(message.guild.id)
+    const serverQueue = queue.get(message.guild.id)
 
     if(message.content.startsWith(`${PREFIX}play`)) {
         const voiceChannel = message.member.voice.channel
