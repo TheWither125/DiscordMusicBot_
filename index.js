@@ -49,7 +49,7 @@ client.on('message', async message => {
                 console.log(`There was an error connecting to the voice channel: ${error}`)
                 queue.delete(message.guild.id)
                 return message.channel.send(`There was an error connecting to the voice channel: ${error}`)
-           }
+            }
        } else {
            serverQueue.songs.push(song)
            return message.channel.send(`**${song.title}** has been added to the queue`)
@@ -73,7 +73,7 @@ client.on('message', async message => {
 })
 
 function play(guild, song) {
-    const ServerQueue = queue.get(guild.id)
+    const serverQueue = queue.get(guild.id)
 
     if(!song) {
         serverQueue.voiceChannel.leave()
@@ -82,14 +82,14 @@ function play(guild, song) {
     }
 
     const dispatcher = serverQueue.connection.play(ytdl(song.url))
-        .on('finish', () => {
-            serverQueue.songs.shift()
-            play(guild, serverQueue.songs[0])
-        })
-        .on('error', error => {
+     .on('finish', () => {
+        serverQueue.songs.shift()
+        play(guild, serverQueue.songs[0])
+    })
+    .on('error', error => {
             console.log(error)
-        })
-        dispatcher.setVolumeLogarithmic(serverQueue.volume / 5)
+    })
+    dispatcher.setVolumeLogarithmic(serverQueue.volume / 5)
 }
 
 client.login(process.env.token);
