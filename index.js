@@ -25,7 +25,7 @@ client.on('message', async message => {
         const songInfo = await ytdl.getInfo(args[1])
         const song = {
             title: songInfo.title,
-            url: songInfo.video_url
+            url: songInfo.video_url 
         }
 
         if(!serverQueue) {
@@ -46,9 +46,9 @@ client.on('message', async message => {
                 queueConstruct.connection = connection
                 play(message.guild, queueConsruct.songs[0])
             } catch (error) {
-                console.log('There was an error connecting to the voice channel: ${error}')
+                console.log(`There was an error connecting to the voice channel: ${error}`)
                 queue.delete(message.guild.id)
-                return message.channel.send('There was an error connecting to the voice channel: ${error}')
+                return message.channel.send(`There was an error connecting to the voice channel: ${error}`)
            }
        } else {
            serverQueue.songs.push(song)
