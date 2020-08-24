@@ -24,8 +24,8 @@ client.on('message', async message => {
 
         const songInfo = await ytdl.getInfo(args[1])
         const song = {
-            title: songInfo.title,
-            url: songInfo.video_url 
+            title: songInfo.videoDetails.title,
+            url: songInfo.videoDetails.video_url
         }
 
         if(!serverQueue) {
