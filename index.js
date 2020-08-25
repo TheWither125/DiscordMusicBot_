@@ -5,7 +5,7 @@ const PREFIX = '?'
 
 const client = new Client({ disableEveryone: true})
 
-const youtube = new Youtube(procces.env.AIzaSyCmc5EgSf3cKr2iiO8c67OWxzN68KrbvGY) 
+const youtube = new Youtube(process.env.GOOGLE_API_KEY) 
 
 const queue = new Map()
 
