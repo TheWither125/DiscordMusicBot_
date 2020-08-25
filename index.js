@@ -122,9 +122,6 @@ ${serverQueue.songs.map(song => `**-** ${song.title}`).join('/n')}
         serverQueue.connection.dispatcher.resume()
         message.channel.send("Music resumed")
         return undefined
-    } else if (message.content.startsWith(`${PREFIX}donate`)) {
-        message.channel.send("http://patreon.com/screwdevelopment")
-        return undefined
     }
 })
   
