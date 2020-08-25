@@ -52,7 +52,7 @@ client.on('message', async message => {
             }
        } else {
            serverQueue.songs.push(song)
-           return message.channel.send(`$**{song.title}** has been added to queue`) 
+           return message.channel.send(`**${song.title}** has been added to queue`) 
        }
        return undefined
     } else if(message.content.startsWith(`${PREFIX}stop`)) {
