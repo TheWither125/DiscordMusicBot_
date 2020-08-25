@@ -52,7 +52,7 @@ client.on('message', async message => {
             }
        } else {
            serverQueue.songs.push(song)
-           return message.channel.send(`${song.title} has been added to queue`) 
+           return message.channel.send(`$**{song.title}** has been added to queue`) 
        }
        return undefined
     } else if(message.content.startsWith(`${PREFIX}stop`)) {
@@ -81,12 +81,12 @@ function play(guild, song) {
     }
 
     const dispatcher = serverQueue.connection.play(ytdl(song.url))
-     .on('finish', () => {
+    .on('finish', () => {
         serverQueue.songs.shift()
         play(guild, serverQueue.songs[0])
     })
     .on('error', error => {
-            console.log(error)
+        console.log(error)
     })
     dispatcher.setVolumeLogarithmic(serverQueue.volume / 5)
 }
