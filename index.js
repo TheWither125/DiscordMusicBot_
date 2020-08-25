@@ -1,8 +1,11 @@
 const { Client, Util } = require('discord.js')
 const ytdl = require('ytdl-core')
+const Youtube = require('simple-youtube-api')
 const PREFIX = '?' 
 
 const client = new Client({ disableEveryone: true})
+
+const youtube = new Youtube(procces.env.GOOGLE_API_KEY) 
 
 const queue = new Map()
 
@@ -13,6 +16,8 @@ client.on('message', async message => {
     if(!message.content.startsWith(PREFIX)) return
 
     const args = message.content.substring(PREFIX.length).split(" ")
+    const searchString = args.slice(1).join(' ')
+    const url = args[1] ? args[1].replace(/<(._)>/g, '$1') : ''
     const serverQueue = queue.get(message.guild.id)
 
     if(message.content.startsWith(`${PREFIX}play`)) {
@@ -22,10 +27,21 @@ client.on('message', async message => {
         if(!permissions.has('CONNECT')) return message.channel.send("I dont have permissions to connect to the voice channel")
         if(!permissions.has('SPEAK')) return message.channel.send("I dont have permissions to speak in the channel") 
 
-        const songInfo = await ytdl.getInfo(args[1])
+        try {
+            var video = await youtube.getVideoByID(url)
+        } catch {
+            try {
+                var videos = await youtube.searchVideos(searchString, 1)
+                var video = await youtube.getVideoByID(videos[0].id)
+            } catch {
+                return message.channel.send("Couldnt find search results")
+            }
+        }
+
         const song = {
-            title: Util.escapeMarkdown(songInfo.videoDetails.title),
-            url: songInfo.videoDetails.video_url
+            id: video.id,
+            title: Util.escapeMarkdown(video.title),
+            url: 'https://www.youtube.com/watch?v=${video.id}'
         }
 
         if(!serverQueue) {
